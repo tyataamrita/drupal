@@ -1,0 +1,101 @@
+<?php 
+function itonics_students_menu(){
+    $items=[] ;
+    $items['itonics_students']=[
+        'title'=> 'Students welcome message',
+        'page callback' => 'itonics_students_welcome',
+        'page arguments' =>['one','two'],
+        'access callback' => TRUE
+    
+    ] ;
+    
+    $items['itonics_students/student_form']=[
+        'title'=> 'Students registration form',
+        'page callback' => 'drupal_get_form',
+        'page arguments' =>['itonics_students_form'],
+        'access callback'=>TRUE
+    ];
+    return $items;
+}
+function itonics_students_welcome($param1 ,$param2){
+    echo"$param1 . $param2";
+}
+function itonics_students_form($form, &$form_state){
+    $form['student_name']=[
+          '#type'=>'textfield',
+        '#title' => 'Student Name',
+      
+    ];
+    $form['student_email']=[
+        '#type'=>'textfield',
+        '#title'=>'Email'
+    ];
+  /*  $form['student_abstract']=[
+        '#type'=>'textarea',
+      '#title' => 'textarea',
+      '#requred' => TRUE
+  ];*/
+  $form['student_checkbox']=[
+    '#type'=>'checkboxes',
+  '#title' => 'Subject',
+  '#options' =>[
+      'Biology',
+      'Maths',
+      'Physics',
+  ],
+  
+];
+
+$form['student_radios']=[
+    '#type'=> 'radios',
+    '#title' =>'Gender',
+    '#options' =>[  'Male','Female','Other'],
+        
+ 
+  ];
+$form['students_selectbox']=[
+    '#type' =>'select',
+    '#title' =>'Address',
+   
+    '#options'=>[
+        'Kathmandu',
+        'Bhaktapur',
+        'Lalitpur',
+        'Another place'
+    ],
+    '#required' =>TRUE
+
+];
+
+    $form ['submit']=[
+        '#type'=>'submit',
+      '#value' =>'submit'
+     
+  ];
+
+    return $form;
+}
+
+
+
+function itonics_students_form_validate($form, &$form_state){
+    $student_name= $form_state['values']['student_name'];
+    if(empty($student_name)){
+   form_set_error('student_name','student name is required');
+   }
+    else
+    {
+        if(strlen($student_name)>5){
+            form_set_error('student_name','exceed required length');
+        }
+    }
+
+}
+function itonics_students_form_submit($form ,&$form_state){
+    echo 'student_name:'.$form_state['values']['student_name'];
+    echo 'student_email:'.$form_state['values']['student_email'];
+    echo 'student_checkbox:'.var_dump($form_state['values']['student_checkbox']);
+    exit;
+    
+}
+ ?>
