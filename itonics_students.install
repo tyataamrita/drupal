@@ -1,1 +1,50 @@
+<?php
+function itonics_students_schema(){
+    $schema =[];
+$schema ['itonics_students'] =[
+    'description' =>'holds student records',
+    'fields' =>[
+    'student_id' => [
+        'description'=>'Auto increment with primary',
+        'type'=>'serial' //auto increment with data type int
+    ],
+    'age' => [
+        'description'=>'holds age of student',
+        'type'=>'int' ,
+        'size'=>'small' //tiny/small/medium//normal/big
+    ],
+    'student_name' => [
+        'description'=>'holds name of student',
+        'type'=>'varchar' ,
+         'length'=> 255,
+         
+    ],
 
+    'primary key'=>['student_id'],
+    'indexes'=>[
+        'itonics_students_age'=>[
+        'age',
+    ],
+     
+]
+]
+];
+return $schema ;
+}
+function itonics_students_uninstall(){
+    $test = 'test';
+} 
+function itonics_students_install(){
+    $test= 'install';
+}
+function itonics_students_enable(){
+    $test = 'enable';
+
+}
+function itonics_students_disable(){
+    $test = 'disable';
+}
+
+  
+
+?>

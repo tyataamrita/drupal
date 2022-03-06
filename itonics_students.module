@@ -4,7 +4,7 @@ function itonics_students_menu(){
     $items['itonics_students']=[
         'title'=> 'Students welcome message',
         'page callback' => 'itonics_students_welcome',
-        'page arguments' =>['one','two'],
+      
         'access callback' => TRUE
     
     ] ;
@@ -13,6 +13,12 @@ function itonics_students_menu(){
         'title'=> 'Students registration form',
         'page callback' => 'drupal_get_form',
         'page arguments' =>['itonics_students_form'],
+        'access callback'=>TRUE
+    ];
+    $items['itonics_students/student_list']=[
+        'title'=> 'Student list',
+        'page callback' => 'itonics_students_records',
+        
         'access callback'=>TRUE
     ];
     return $items;
@@ -85,7 +91,7 @@ function itonics_students_form_validate($form, &$form_state){
    }
     else
     {
-        if(strlen($student_name)>5){
+        if(strlen($student_name)>25){
             form_set_error('student_name','exceed required length');
         }
     }
@@ -95,7 +101,58 @@ function itonics_students_form_submit($form ,&$form_state){
     echo 'student_name:'.$form_state['values']['student_name'];
     echo 'student_email:'.$form_state['values']['student_email'];
     echo 'student_checkbox:'.var_dump($form_state['values']['student_checkbox']);
+    echo'student_radios:'.$form_state['values']['student_radios'];
+    echo 'student_selectbox:'.$form_state['values']['student_address'];
     exit;
     
 }
+
+
+
+function itonics_students_records(){
+    $students_records=[
+        [
+            'name'=>'amrita',
+            'email'=>'am@12',
+            'location' =>'bkt'
+        ],
+        [
+            'name'=>'barsha',
+            'email'=>'bar@12',
+            'location' =>'ktm'
+          
+        ],
+    ];
+    
+    $rows=[];
+    $header = array(
+        t('Student Name'),
+        t('Email'),
+        t('Location'),
+        t('Actions')  
+    );
+
+    foreach($students_records as $student_id =>$students){
+        $rows[]=[
+            t($students['name']),
+            t($students['email']),
+            t($students['location']),
+    l ('<span>'.t('Edit').'</span>','#',['attributes'=>['class' =>['edit','btn'],'data-text' =>['value 1']],'html'=>TRUE]).l(t('Delete'),'#')
+    ];
+}  
+    
+    
+ /* $rows[]=[
+      0 => t('Amrita Tyata'),
+        t('itonics.12'),
+     
+       l ('<span>'.t('Edit').'</span>','#',['attributes'=>['class' =>['edit','btn'],'data-text' =>['value 1']],'html'=>TRUE]).l(t('Delete'),'#')
+    ];*/
+    return theme ('table',array('header'=> $header, 'rows'=>$rows));
+    
+
+    
+}
+
+
  ?>
