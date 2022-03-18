@@ -1,50 +1,228 @@
 <?php
-function itonics_students_schema(){
-    $schema =[];
-$schema ['itonics_students'] =[
-    'description' =>'holds student records',
-    'fields' =>[
-    'student_id' => [
-        'description'=>'Auto increment with primary',
-        'type'=>'serial' //auto increment with data type int
-    ],
-    'age' => [
-        'description'=>'holds age of student',
-        'type'=>'int' ,
-        'size'=>'small' //tiny/small/medium//normal/big
-    ],
-    'student_name' => [
-        'description'=>'holds name of student',
-        'type'=>'varchar' ,
-         'length'=> 255,
-         
-    ],
 
-    'primary key'=>['student_id'],
-    'indexes'=>[
-        'itonics_students_age'=>[
-        'age',
-    ],
-     
-]
-]
-];
-return $schema ;
-}
-function itonics_students_uninstall(){
-    $test = 'test';
-} 
-function itonics_students_install(){
-    $test= 'install';
-}
-function itonics_students_enable(){
-    $test = 'enable';
+ function itonics_students_schema(){
+    $schema = [];
+    // table name should be alwats plural
+    $schema['students_records'] = [
+        'description' => 'holds student records',
+        'fields' => [
+            'student_id' => [
+                'description' => 'Autoincrement with primary',
+                'type' => 'serial',
+            
+            ],
+            
+            'student_name' => [
+                'description' => 'hold the name of student',
+                'type' => 'varchar',
+                'length' => 255,
+                'unsigned' => FALSE, 
+                'size' => 'normal', // normal / big
+            ],
+            'student_email' => [
+                'description' => 'hold the email of studen',
+                'type' => 'varchar',
+                 'length' => 155,
+                 'not null' => TRUE,
+            ],
+            /*'student_hobby' => [
+                'description' => 'hold the name of student',
+                'type' => 'varchar',
+                'length' => 900,
+                'unsigned' => FALSE, 
+                'size' => 'normal', // normal / big
+            ],
+*/
 
-}
-function itonics_students_disable(){
-    $test = 'disable';
+            'student_address' => [
+                'description' => 'hold the address of student',
+                'type' => 'varchar',
+                'length' => 255,
+            ],
+            'student_contact' => [
+                'description' => 'hold the contact of student',
+                'type' => 'int',
+                 'size' => 'big',
+                 //'not null' => False,
+            ],
+            
+           
+            'student_radios' => [
+                'description' => 'hold the intrested field of  student',
+                'type' => 'text',
+                 
+            ],
+            'student_abstract' => [
+                'description' => 'hold the bio of student ',
+                'type' => 'text',
+                'size' => 'medium',
+                'not null' => False,                                                
+
+            ],
+
+        ],
+        'primary key' => ['student_id'],
+        // 'indexes' => [
+        //     'itonics_students_age' => [ // index name
+        //         'age', // column name
+        //     ],
+        
+        ];
+        return $schema;
+ }
+
+
+
+
+
+//  function itonics_students_schema(){
+//     $schema = [];
+//     // table name should be alwats plural
+//     $schema['itonics_students'] = [
+//         'description' => 'holds student records',
+//         'fields' => [
+//             'student_id' => [
+//                 'description' => 'Autoincrement with primary',
+//                 'type' => 'serial',
+            
+//             ],
+//             'age' => [
+//                 'description' => 'hold the age of student',
+//                 'type' => 'int',
+//                 'size' => 'small'
+            
+//             ],
+//             'student_enrollment_fee' => [
+//                 'description' => 'hold the amount of fee',
+//                 'type' => 'float',
+//                 'unsigned' => TRUE, 
+//                 'size' => 'normal', // normal / big
+//             ],
+
+//             'student_gpa' => [
+//                 'description' => 'hold the gpa of student',
+//                 'type' => 'numeric',
+//                  'precision' => 3, // total no of significant digit in num
+//                  'scale' => 2, // total no of digits to right of decimal point
+//             ],
+//             'student_bio' => [
+//                 'description' => 'hold the bio of student',
+//                 'type' => 'text',
+//                  'size' => 'medium',
+//                  'not null' => False,
+//             ],
+//             'student_program_name' => [
+//                 'description' => 'hold the programm  student intrested in',
+//                 'type' => 'char',
+//                  'length' => 55,
+//                  'default' => 'Software',
+//             ],
+//             // 'student_photo' => [
+//             //     'description' => 'hold the photo of  student',
+//             //     'type' => 'blob',
+//             //      'size' => 'normal', //big
+    
+//             // ],
+            
+
+//         ],
+//         'primary key' => ['student_id'],
+//         // 'indexes' => [
+//         //     'itonics_students_age' => [ // index name
+//         //         'age', // column name
+//         //     ],
+//         ]
+//         ];
+//         return $schema;
+//  }
+
+
+/**
+ * Example of hook_update_n
+ * @return string
+ */
+function itonics_students_update_7000(){
+return 'successfully runed 700 update';
 }
 
-  
+/**
+ * Adding the age field on students_records table
+ */
+function itonics_students_update_7001(){ // revision no increase by +1 so 7001
+db_add_field('students_records','student_age',[
+    'description' => 'hold the age of student',
+    'type' => 'int',
+    'size' => 'big',
+]);
+return 'successfully added age column on students_records table';
+}
 
+/**
+ * Checking existance of added column on table
+ */
+
+function itonics_students_update_7002(){ // revision no increase by +1 so 7001
+    if(!db_field_exists('students_records','student_age')){
+    db_add_field('students_records','student_age',[
+    'description' => 'hold the age of student',
+    'type' => 'int',
+    'size' => 'big',
+]);
+return 'successfully added age column on students_records table';
+}
+else{
+    return 'age column already exists on students_records table';
+}
+}
+
+/**
+ * Example of removing column from table
+ */
+function itonics_students_update_7003(){ // revision no increase by +1 so 7001
+    if(db_field_exists('students_records','student_age')){
+    db_drop_field('students_records','student_age');
+return 'successfully remove age column on students_records table';
+}
+else{
+    return 'age column does not exists on students_records table';
+}
+}
+
+/**
+ * Adding the hobby field on students_records table
+ */
+function itonics_students_update_7004(){ // revision no increase by +1 so 7001
+    db_add_field('students_records','student_hobby',[
+        'description' => 'hold the hobby of student',
+        'type' => 'varchar',
+        'length' => 255,
+        'unsigned' => FALSE, 
+        'size' => 'normal', // normal / big
+    ]);
+    return 'successfully added hobby column on students_records table';
+    }
+
+
+    /**
+ * Example of updating column defination from table
+ */
+function itonics_students_update_7005(){ // revision no increase by +1 so 7001
+    if(db_field_exists('students_records','student_hobby')){
+    db_change_field('students_records','student_hobby','student_hobby',[
+        'description' => 'hold the hobby of student',
+        'type' => 'varchar',
+        'length' => 900,
+        'unsigned' => FALSE, 
+        'size' => 'normal',
+    ]);
+return 'successfully updated hobby column on students_records table';
+}
+else{
+    return 'hobby column does not exists on students_records table';
+}
+}
+
+
+
+ 
 ?>

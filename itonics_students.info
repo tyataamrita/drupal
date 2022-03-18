@@ -1,5 +1,5 @@
-name =ITONICS STUDENTS
-description = Helps to manage students record
+name = itonics student
+description = Helps to make students records
 version = 1
 core = 7.x
-package = Drupal Training
+package = drupal training
